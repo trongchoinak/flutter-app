@@ -1,13 +1,33 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/audio_helpers/page_manager.dart';
 import 'package:music_player/audio_helpers/service_locator.dart';
 import 'package:music_player/common/color_extension.dart';
+import 'package:music_player/screens/login_page.dart'; // Import LoginPage
+import 'package:music_player/screens/register_page.dart'; // Import RegisterPage
+import 'package:music_player/view/main_tabview/main_tabview.dart'; // Import MainTabView
 import 'package:music_player/view/splash_view.dart';
+import 'package:music_player/view_model/splash_view_model.dart'; // Import SplashViewMode
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: FirebaseOptions(
+            apiKey: "AIzaSyDs34BZeuQPBhDMCcRKzQHWhPgpvkF7GJU",
+            appId: "1:129967075380:web:6bfb2d2ffb90e1da965a61",
+            messagingSenderId: "129967075380",
+            projectId: "music-yersin"));
+  } else {
+    await Firebase.initializeApp();
+  }
   await setupServiceLocator();
+
+  // Initialize SplashViewMode
+  Get.put(SplashViewMode());
+
   runApp(const MyApp());
 }
 
@@ -19,23 +39,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getIt<PageManager>().init();
   }
 
   @override
   void dispose() {
-    
-    super.dispose();
     getIt<PageManager>().dispose();
+    super.dispose();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -45,16 +60,21 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "Circular Std",
         scaffoldBackgroundColor: TColor.bg,
         textTheme: Theme.of(context).textTheme.apply(
-          bodyColor: Colors.black, // Đổi màu văn bản chính thành màu đen
-          displayColor: Colors.black, // Đổi màu văn bản hiển thị thành màu đen
+          bodyColor: Colors.black,
+          displayColor: Colors.black,
         ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: TColor.primary,
         ),
         useMaterial3: false,
       ),
-      home: const SplashView(),
+      home: const SplashView(), // Hiển thị SplashView trước
+      getPages: [
+        GetPage(name: '/', page: () => const SplashView()),
+        GetPage(name: '/login', page: () => const LoginPage()),
+        GetPage(name: '/register', page: () => const RegisterPage()),
+        GetPage(name: '/home', page: () => const MainTabView()), // Thêm MainTabView
+      ],
     );
   }
-
 }

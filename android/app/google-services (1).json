@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "129967075380",
+    "project_id": "music-yersin",
+    "storage_bucket": "music-yersin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129967075380:android:a3e2dd073c4eb8b9965a61",
+        "android_client_info": {
+          "package_name": "com.codeforany.music_player"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFdNCkBSlr5eyAupmjevsm2U-jkFyPWoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

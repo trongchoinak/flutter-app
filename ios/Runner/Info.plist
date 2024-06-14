@@ -32,6 +32,7 @@
 	<array>
 		<string>audio</string>
 	</array>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -51,5 +52,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- Info.plist -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to update your profile picture.</string>
+
 </dict>
 </plist>

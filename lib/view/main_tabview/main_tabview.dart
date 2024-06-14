@@ -1,9 +1,13 @@
+// lib/main_tabview/main_tabview.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/common/color_extension.dart';
 import 'package:music_player/common_widget/icon_text_row.dart';
 import 'package:music_player/view/settings/settings_view.dart';
 import 'package:music_player/view/songs/songs_view.dart';
+import 'package:music_player/Screens/profile_page.dart';
+
 import 'package:music_player/view_model/splash_view_model.dart';
 import '../home/home_view.dart';
 
@@ -21,7 +25,6 @@ class _MainTabViewState extends State<MainTabView>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller = TabController(length: 3, vsync: this);
 
@@ -33,19 +36,20 @@ class _MainTabViewState extends State<MainTabView>
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     controller?.dispose();
+    super.dispose();
   }
 
   void _goToHome() {
     controller?.animateTo(0); // Chuyển đến tab đầu tiên
     Navigator.of(context).pop(); // Đóng drawer
   }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.sizeOf(context);
 
+    // Get the instance of SplashViewMode
     var splashVM = Get.find<SplashViewMode>();
 
     return Scaffold(
@@ -55,7 +59,7 @@ class _MainTabViewState extends State<MainTabView>
         child: SingleChildScrollView(
           child: ListView(
             padding: EdgeInsets.zero,
-            shrinkWrap: true, // Thêm dòng này để tránh lỗi overflow
+            shrinkWrap: true,
             children: [
               SizedBox(
                 height: 240,
@@ -130,7 +134,8 @@ class _MainTabViewState extends State<MainTabView>
         children: const [
           HomeView(),
           SongsView(),
-          // Add your third tab view here if needed
+          ProfilePage(),
+
         ],
       ),
       bottomNavigationBar: Container(
@@ -142,38 +147,44 @@ class _MainTabViewState extends State<MainTabView>
           )
         ]),
         child: BottomAppBar(
-            color: Colors.transparent,
-            elevation: 0,
+            color: TColor.bg,
             child: TabBar(
               controller: controller,
-              indicatorColor: Colors.transparent,
-              indicatorWeight: 1,
               labelColor: TColor.primary,
-              labelStyle: const TextStyle(fontSize: 10),
               unselectedLabelColor: TColor.primaryText28,
-              unselectedLabelStyle: const TextStyle(fontSize: 10),
+              indicatorColor: TColor.primary,
               tabs: [
                 Tab(
                   text: "Trang chủ",
                   icon: Image.asset(
                     selectTab == 0
-                        ? "assets/img/home_tab.png"
-                        : "assets/img/home_tab_un.png",
-                    width: 20,
-                    height: 20,
+                        ? "assets/img/homese.jpg"
+                        : "assets/img/home.png",
+                    width: 25,
+                    height: 25,
+                    color: selectTab == 0 ? TColor.primary : TColor.primaryText28,
                   ),
                 ),
                 Tab(
-                  text: "Songs",
+                  text: "Bài hát",
                   icon: Image.asset(
-                    selectTab == 1
-                        ? "assets/img/songs_tab.png"
-                        : "assets/img/songs_tab_un.png",
-                    width: 20,
-                    height: 20,
+                    selectTab == 1 ? "assets/img/discse.jpg" : "assets/img/disc.png",
+                    width: 25,
+                    height: 25,
+                    color: selectTab == 1 ? TColor.primary : TColor.primaryText28,
                   ),
                 ),
-                // Add your third tab here if needed
+                Tab(
+                  text: "Trang cá nhân",
+                  icon: Image.asset(
+                    selectTab == 2
+                        ? "assets/img/userse.jpg"
+                        : "assets/img/user.png",
+                    width: 25,
+                    height: 25,
+                    color: selectTab == 2 ? TColor.primary : TColor.primaryText28,
+                  ),
+                ),
               ],
             )),
       ),

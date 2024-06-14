@@ -1,33 +1,24 @@
+// lib/view/splash_view.dart
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:music_player/view_model/splash_view_model.dart';
+import 'package:music_player/view_model/splash_view_model.dart'; // Import SplashViewMode
 
-class SplashView extends StatefulWidget {
-  const SplashView({super.key});
-
-  @override
-  State<SplashView> createState() => _SplashViewState();
-}
-
-class _SplashViewState extends State<SplashView> {
-
-  final splashVM = Get.put( SplashViewMode() );
-
-  @override
-  void initState() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-    super.initState();
-    splashVM.loadView();
-  }
+class SplashView extends StatelessWidget {
+  const SplashView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.sizeOf(context);
-    return Scaffold(
+    // Use SplashViewMode here
+    final splashVM = Get.find<SplashViewMode>();
 
+    Future.delayed(const Duration(seconds: 2), () {
+      Get.offNamed('/login'); // Điều hướng đến LoginPage
+    });
+
+    return Scaffold(
       body: Center(
-        child: Image.asset("assets/img/logo.jpg", width: media.width * 0.50, ),
+        child: CircularProgressIndicator(),
       ),
     );
   }
