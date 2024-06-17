@@ -10,7 +10,7 @@ import 'package:music_player/screens/register_page.dart'; // Import RegisterPage
 import 'package:music_player/view/main_tabview/main_tabview.dart'; // Import MainTabView
 import 'package:music_player/view/splash_view.dart';
 import 'package:music_player/view_model/splash_view_model.dart'; // Import SplashViewMode
-
+import 'package:music_player/view_model/all_songs_view_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
@@ -27,29 +27,12 @@ void main() async {
 
   // Initialize SplashViewMode
   Get.put(SplashViewMode());
-
+  Get.put(AllSongsViewModel());
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    getIt<PageManager>().init();
-  }
-
-  @override
-  void dispose() {
-    getIt<PageManager>().dispose();
-    super.dispose();
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

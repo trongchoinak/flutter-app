@@ -158,8 +158,8 @@ class _MainTabViewState extends State<MainTabView>
                   text: "Trang chủ",
                   icon: Image.asset(
                     selectTab == 0
-                        ? "assets/img/homese.jpg"
-                        : "assets/img/home.png",
+                        ? "assets/img/home_tab.png"
+                        : "assets/img/home_tab.png",
                     width: 25,
                     height: 25,
                     color: selectTab == 0 ? TColor.primary : TColor.primaryText28,
@@ -168,7 +168,8 @@ class _MainTabViewState extends State<MainTabView>
                 Tab(
                   text: "Bài hát",
                   icon: Image.asset(
-                    selectTab == 1 ? "assets/img/discse.jpg" : "assets/img/disc.png",
+                    selectTab == 1 ? "assets/img/songs_tab.png" :
+                    "assets/img/songs_tab.png",
                     width: 25,
                     height: 25,
                     color: selectTab == 1 ? TColor.primary : TColor.primaryText28,
@@ -178,7 +179,7 @@ class _MainTabViewState extends State<MainTabView>
                   text: "Trang cá nhân",
                   icon: Image.asset(
                     selectTab == 2
-                        ? "assets/img/userse.jpg"
+                        ? "assets/img/user.png"
                         : "assets/img/user.png",
                     width: 25,
                     height: 25,

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/models/song_model.dart'; // Đảm bảo đường dẫn đúng Song model
 import '../common/color_extension.dart';
 
 class AllSongRow extends StatelessWidget {
-  final Map sObj;
+  final Song song;
   final VoidCallback onPressedPlay;
   final VoidCallback onPressed;
+
   const AllSongRow({
-    super.key,
-    required this.sObj,
+    Key? key,
+    required this.song,
     required this.onPressed,
     required this.onPressedPlay,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,14 @@ class AllSongRow extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
-                  child: Image.asset(
-                    sObj["image"],
+                  child: Image.network(
+                      song.image,
                     width: 50,
                     height: 50,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.error); // Hiển thị biểu tượng lỗi nếu không tải được hình ảnh
+                    },
                   ),
                 ),
                 Container(
@@ -53,24 +58,46 @@ class AllSongRow extends StatelessWidget {
               width: 15,
             ),
             Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  sObj["name"],
-                  maxLines: 1,
-                  style: TextStyle(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    song.title,
+                    maxLines: 1,
+                    style: TextStyle(
                       color: TColor.primaryText60,
                       fontSize: 13,
-                      fontWeight: FontWeight.w700),
-                ),
-                Text(
-                  sObj["artists"],
-                  maxLines: 1,
-                  style: TextStyle(color: TColor.primaryText28, fontSize: 10),
-                )
-              ],
-            )),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    song.artist,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: TColor.primaryText28,
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    'Album: ${song.album}',
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: TColor.primaryText28,
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    'Duration: ${song.duration} seconds',
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: TColor.primaryText28,
+                      fontSize: 10,
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
             IconButton(
               onPressed: onPressedPlay,
               icon: Image.asset(

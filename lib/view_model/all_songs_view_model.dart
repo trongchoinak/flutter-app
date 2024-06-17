@@ -1,57 +1,43 @@
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:music_player/models/song_model.dart'; // Điều chỉnh đường dẫn dựa trên cấu trúc của dự án
 
 class AllSongsViewModel extends GetxController {
-    final allList = [
-        {
-            "image": "assets/img/dlttad.jpg",
-            "name": "Đừng làm trái tim anh đau",
-            "artists": "Sơn tùng MTP"
-        },
-        {
-            "image": "assets/img/noinaycoanh.png",
-            "name": "Nơi này có anh",
-            "artists": "Sơn tùng MTP"
-        },
-        {
-            "image": "assets/img/comaogaotien.jpg",
-            "name": "Cơm Aó Gạo Tiền",
-            "artists": "7dnight"
-        },
-        {
-            "image": "assets/img/comaogaotien.jpg",
-            "name": "Cơm Aó Gạo Tiền",
-            "artists": "7dnight"
-        },
-        {
-            "image": "assets/img/s4.png",
-            "name": "Do you feel lonelyness",
-            "artists": "Marc Anthony"
-        },
-        {
-            "image": "assets/img/s5.png",
-            "name": "Earth song",
-            "artists": "Michael Jackson"
-        },
-        {
-            "image": "assets/img/s6.png",
-            "name": "Smooth criminal",
-            "artists": "Michael Jackson"
-        },
-        {
-            "image": "assets/img/s7.png",
-            "name": "The way you make me feel",
-            "artists": "Michael Jackson"
-        },
-       
-        {
-            "image": "assets/img/s9.png",
-            "name": "Somebody that I used to know",
-            "artists": "Gotye"
-        },
-        {
-            "image": "assets/img/s10.png",
-            "name": "Wild Thoughts",
-            "artists": "Michael Jackson"
+    var allList = <Song>[].obs;
+    var isLoading = true.obs;
+
+    @override
+    void onInit() {
+        super.onInit();
+        fetchSongs();
+    }
+
+    Future<void> fetchSongs() async {
+        try {
+            isLoading(true);
+            print('Fetching songs...');
+            final response = await http.get(
+                Uri.parse('https://thantrieu.com/resources/braniumapis/songs.json'),
+            );
+            print('Response status: ${response.statusCode}');
+            if (response.statusCode == 200) {
+                final bodycontent = utf8.decode(response.bodyBytes);
+                var songWrapper = jsonDecode(bodycontent) as Map;
+                var songList = songWrapper['songs'] as List ;
+                List<Song> songs = songList.map((song) => Song.fromJson(song)).toList();
+                print('Fetched ${songs.length} songs: $songs'); // Thêm dòng này để in ra dữ liệu trả về
+                allList.assignAll(songs); // Cập nhật danh sách các bài hát
+            } else {
+                // Xử lý lỗi khi không thể lấy dữ liệu từ API
+                print('Error fetching songs: ${response.statusCode}');
+            }
+        } catch (e) {
+            // Xử lý các ngoại lệ có thể xảy ra trong quá trình gọi API
+            print('Error fetching songs: $e');
+        } finally {
+            isLoading(false);
         }
-    ].obs;
+    }
+
 }

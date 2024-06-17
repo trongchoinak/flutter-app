@@ -2,22 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/common_widget/player_bottom_button.dart';
 import 'package:music_player/view/main_player/driver_mode_view.dart';
-import 'package:music_player/view/main_player/play_playlist_view.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-
+import 'package:music_player/models/song_model.dart';
 import '../../common/color_extension.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class MainPlayerView extends StatefulWidget {
-  const MainPlayerView({super.key});
+
+  final Song song;
+
+  const MainPlayerView({Key? key, required this.song}) : super(key: key);
 
   @override
   State<MainPlayerView> createState() => _MainPlayerViewState();
 }
 
 class _MainPlayerViewState extends State<MainPlayerView> {
+  AudioPlayer _audioPlayer = AudioPlayer();
+  bool _isPlaying = false;
+
+  void _playMusic() async {
+    await _audioPlayer.play(UrlSource(widget.song.source));
+    setState(() {
+      _isPlaying = true;
+    });
+  }
+
+  void _pauseMusic() async {
+    await _audioPlayer.pause();
+    setState(() {
+      _isPlaying = false;
+    });
+  }
+
+  void _stopMusic() async {
+    await _audioPlayer.stop();
+    setState(() {
+      _isPlaying = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.sizeOf(context);
+    var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColor.bg,
@@ -36,107 +69,105 @@ class _MainPlayerViewState extends State<MainPlayerView> {
         title: Text(
           "Now Playing",
           style: TextStyle(
-              color: TColor.primaryText80,
-              fontSize: 17,
-              fontWeight: FontWeight.w600),
+            color: TColor.primaryText80,
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         actions: [
-           PopupMenuButton<int>(
-                    color: const Color(0xff383B49),
-                    offset: const Offset(-10, 15),
-                    elevation: 1,
-                    icon: Image.asset(
-                      "assets/img/more_btn.png",
-                      width: 20,
-                      height: 20,
-                      color: Colors.white,
-                    ),
-                    
-                    padding: EdgeInsets.zero,
-                    onSelected: (selectIndex) {
-                        if(selectIndex == 9) {
-                          Get.to( () => const DriverModeView() );
-                        }
-                    },
-                    itemBuilder: (context) {
-                      return [
-                        const PopupMenuItem(
-                          value: 1,
-                          height: 30,
-                          child: Text(
-                            "Social Share",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                        const PopupMenuItem(
-                          value: 2,
-                           height: 30,
-                          child: Text(
-                            "Playing Queue",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                         const PopupMenuItem(
-                          value: 3,
-                          height: 30,
-                          child: Text(
-                            "Add to playlist...",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                         const PopupMenuItem(
-                          value: 4,
-                           height: 30,
-                          child: Text(
-                            "Lyrics",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                         const PopupMenuItem(
-                          value: 5,
-                          height: 30,
-                          child: Text(
-                            "Volume",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                         const PopupMenuItem(
-                          value: 6,
-                          height: 30,
-                          child: Text(
-                            "Details",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                         const PopupMenuItem(
-                          value: 7,
-                          height: 30,
-                          child: Text(
-                            "Sleep timer",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                        const PopupMenuItem(
-                          value: 8,
-                          height: 30,
-                          child: Text(
-                            "Equaliser",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                        const PopupMenuItem(
-                          value: 9,
-                          height: 30,
-                          child: Text(
-                            "Driver mode",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ];
-                    }),
-             
-
-         
+          PopupMenuButton<int>(
+            color: const Color(0xff383B49),
+            offset: const Offset(-10, 15),
+            elevation: 1,
+            icon: Image.asset(
+              "assets/img/more_btn.png",
+              width: 20,
+              height: 20,
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.zero,
+            onSelected: (selectIndex) {
+              if (selectIndex == 9) {
+                Get.to(() => const DriverModeView());
+              }
+            },
+            itemBuilder: (context) {
+              return [
+                const PopupMenuItem(
+                  value: 1,
+                  height: 30,
+                  child: Text(
+                    "Social Share",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 2,
+                  height: 30,
+                  child: Text(
+                    "Playing Queue",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 3,
+                  height: 30,
+                  child: Text(
+                    "Add to playlist...",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 4,
+                  height: 30,
+                  child: Text(
+                    "Lyrics",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 5,
+                  height: 30,
+                  child: Text(
+                    "Volume",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 6,
+                  height: 30,
+                  child: Text(
+                    "Details",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 7,
+                  height: 30,
+                  child: Text(
+                    "Sleep timer",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 8,
+                  height: 30,
+                  child: Text(
+                    "Equaliser",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 9,
+                  height: 30,
+                  child: Text(
+                    "Driver mode",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+              ];
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -150,8 +181,8 @@ class _MainPlayerViewState extends State<MainPlayerView> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(media.width * 0.7),
-                  child: Image.asset(
-                    "assets/img/player_image.png",
+                  child: Image.network(
+                    widget.song.image,
                     width: media.width * 0.6,
                     height: media.width * 0.6,
                     fit: BoxFit.cover,
@@ -162,41 +193,44 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                   height: media.width * 0.6,
                   child: SleekCircularSlider(
                     appearance: CircularSliderAppearance(
-                        customWidths: CustomSliderWidths(
-                            trackWidth: 4, progressBarWidth: 6, shadowWidth: 8),
-                        customColors: CustomSliderColors(
-                            dotColor: const Color(0xffFFB1B2),
-                            trackColor:
-                                const Color(0xffffffff).withOpacity(0.3),
-                            progressBarColors: [
-                              const Color(0xffFB9967),
-                              const Color(0xffE9585A)
-                            ],
-                            shadowColor: const Color(0xffFFB1B2),
-                            shadowMaxOpacity: 0.05),
-                        infoProperties: InfoProperties(
-                          topLabelStyle: const TextStyle(
-                              color: Colors.transparent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                          topLabelText: 'Elapsed',
-                          bottomLabelStyle: const TextStyle(
-                              color: Colors.transparent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                          bottomLabelText: 'time',
-                          mainLabelStyle: const TextStyle(
-                              color: Colors.transparent,
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.w600),
-                          // modifier: (double value) {
-                          //   final time = printDuration(Duration(seconds: value.toInt()));
-                          //   return '$time';
-                          // }
+                      customWidths: CustomSliderWidths(
+                        trackWidth: 4,
+                        progressBarWidth: 6,
+                        shadowWidth: 8,
+                      ),
+                      customColors: CustomSliderColors(
+                        dotColor: const Color(0xffFFB1B2),
+                        trackColor: const Color(0xffffffff).withOpacity(0.3),
+                        progressBarColors: [
+                          const Color(0xffFB9967),
+                          const Color(0xffE9585A)
+                        ],
+                        shadowColor: const Color(0xffFFB1B2),
+                        shadowMaxOpacity: 0.05,
+                      ),
+                      infoProperties: InfoProperties(
+                        topLabelStyle: const TextStyle(
+                          color: Colors.transparent,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
                         ),
-                        startAngle: 270,
-                        angleRange: 360,
-                        size: 350.0),
+                        topLabelText: 'Elapsed',
+                        bottomLabelStyle: const TextStyle(
+                          color: Colors.transparent,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        bottomLabelText: 'time',
+                        mainLabelStyle: const TextStyle(
+                          color: Colors.transparent,
+                          fontSize: 50.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      startAngle: 270,
+                      angleRange: 360,
+                      size: 350.0,
+                    ),
                     min: 0,
                     max: 100,
                     initialValue: 60,
@@ -210,7 +244,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                       // ucallback providing an ending value (when a pan gesture ends)
                     },
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(
@@ -224,17 +258,18 @@ class _MainPlayerViewState extends State<MainPlayerView> {
               height: 25,
             ),
             Text(
-              "Black or White",
+              widget.song.title,
               style: TextStyle(
-                  color: TColor.primaryText.withOpacity(0.9),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600),
+                color: TColor.primaryText.withOpacity(0.9),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              "Michael Jackson • Album - Dangerous",
+              "${widget.song.artist} • Album - ${widget.song.album}",
               style: TextStyle(color: TColor.secondaryText, fontSize: 12),
             ),
             const SizedBox(
@@ -259,7 +294,9 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                   width: 45,
                   height: 45,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Previous song functionality
+                    },
                     icon: Image.asset(
                       "assets/img/previous_song.png",
                     ),
@@ -272,9 +309,15 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                   width: 60,
                   height: 60,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_isPlaying) {
+                        _pauseMusic();
+                      } else {
+                        _playMusic();
+                      }
+                    },
                     icon: Image.asset(
-                      "assets/img/play.png",
+                      _isPlaying ? "assets/img/pause.png" : "assets/img/play.png",
                     ),
                   ),
                 ),
@@ -285,7 +328,9 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                   width: 45,
                   height: 45,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Next song functionality
+                    },
                     icon: Image.asset(
                       "assets/img/next_song.png",
                     ),
@@ -297,27 +342,30 @@ class _MainPlayerViewState extends State<MainPlayerView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 PlayerBottomButton(
-                    title: "Playlist",
-                    icon: "assets/img/playlist.png",
-                    onPressed: () {
-                      Get.to( () => const PlayPlayListView() );
-                    }),
+                  title: "Playlist",
+                  icon: "assets/img/playlist.png",
+                  onPressed: () {},
+                ),
                 PlayerBottomButton(
-                    title: "Shuffle",
-                    icon: "assets/img/shuffle.png",
-                    onPressed: () {}),
+                  title: "Shuffle",
+                  icon: "assets/img/shuffle.png",
+                  onPressed: () {},
+                ),
                 PlayerBottomButton(
-                    title: "Repeat",
-                    icon: "assets/img/repeat.png",
-                    onPressed: () {}),
+                  title: "Repeat",
+                  icon: "assets/img/repeat.png",
+                  onPressed: () {},
+                ),
                 PlayerBottomButton(
-                    title: "EQ",
-                    icon: "assets/img/eq.png",
-                    onPressed: () {}),
-                 PlayerBottomButton(
-                    title: "Favourites",
-                    icon: "assets/img/fav.png",
-                    onPressed: () {}),
+                  title: "EQ",
+                  icon: "assets/img/eq.png",
+                  onPressed: () {},
+                ),
+                PlayerBottomButton(
+                  title: "Favourites",
+                  icon: "assets/img/fav.png",
+                  onPressed: () {},
+                ),
               ],
             ),
           ],

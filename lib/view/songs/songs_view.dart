@@ -100,6 +100,12 @@ class _SongsViewState extends State<SongsView>
                 Tab(
                   text: "Genres",
                 ),
+                Tab(
+                  text: "Playlists",
+                ),
+                Tab(
+                  text: "Albums",
+                ),
               ],
             ),
           ),
