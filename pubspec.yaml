@@ -52,6 +52,7 @@ dependencies:
   audioplayers: ^6.0.0
   image_picker: ^0.8.4
   http: ^1.2.1
+  shared_preferences: ^2.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -94,6 +95,7 @@ flutter:
     - assets/img/chedolaixe.jpg
     - assets/img/user.png
     - assets/img/pause.jpg
+    - assets/img/splah_view.jpg
 
   #   - images/a_dot_ham.jpeg
 

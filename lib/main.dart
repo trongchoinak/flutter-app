@@ -9,6 +9,8 @@ import 'package:music_player/screens/login_page.dart'; // Import LoginPage
 import 'package:music_player/screens/register_page.dart'; // Import RegisterPage
 import 'package:music_player/view/main_tabview/main_tabview.dart'; // Import MainTabView
 import 'package:music_player/view/splash_view.dart';
+import 'package:music_player/view_model/home_view_model.dart';
+import 'package:music_player/view_model/myplaylists_view_model.dart';
 import 'package:music_player/view_model/splash_view_model.dart'; // Import SplashViewMode
 import 'package:music_player/view_model/all_songs_view_model.dart';
 void main() async {
@@ -25,9 +27,11 @@ void main() async {
   }
   await setupServiceLocator();
 
-  // Initialize SplashViewMode
+  // get put cho cac ham
   Get.put(SplashViewMode());
   Get.put(AllSongsViewModel());
+  Get.put(HomeViewModel());
+  Get.put(MyplaylistsViewModel());
   runApp(const MyApp());
 }
 

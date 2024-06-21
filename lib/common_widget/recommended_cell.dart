@@ -1,48 +1,50 @@
 import 'package:flutter/material.dart';
-
-import '../common/color_extension.dart';
+import 'package:music_player/models/song_model.dart'; // Đảm bảo đường dẫn đúng với Song model
 
 class RecommendedCell extends StatelessWidget {
-  final Map mObj;
-  const RecommendedCell({super.key, required this.mObj});
+  final Song mObj;
+
+  const RecommendedCell({Key? key, required this.mObj}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 230,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      width: 120,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(9),
-            child: Image.asset(
-              mObj["image"],
-              width: double.maxFinite,
-              height: 125,
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              mObj.image,
+              width: 120,
+              height: 120,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Icon(Icons.error);
+              },
             ),
           ),
-
-          const SizedBox(height: 15,),
-
+          const SizedBox(height: 8),
           Text(
-            mObj["name"],
+            mObj.title,
             maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                color: TColor.primaryText60,
-                fontSize: 13,
-                fontWeight: FontWeight.w700),
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-
           Text(
-            mObj["artists"],
+            mObj.artist,
             maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                color: TColor.secondaryText,
-                fontSize: 10,
-                fontWeight: FontWeight.w700),
-          )
+              fontSize: 12,
+              color: Colors.white54,
+            ),
+          ),
         ],
       ),
     );

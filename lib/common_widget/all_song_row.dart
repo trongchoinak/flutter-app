@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/models/song_model.dart'; // Đảm bảo đường dẫn đúng Song model
+import 'package:music_player/models/song_model.dart'; // Đảm bảo đường dẫn đúng với Song model
 import '../common/color_extension.dart';
 
 class AllSongRow extends StatelessWidget {
@@ -27,7 +27,7 @@ class AllSongRow extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
                   child: Image.network(
-                      song.image,
+                    song.image,
                     width: 50,
                     height: 50,
                     fit: BoxFit.cover,
@@ -94,7 +94,6 @@ class AllSongRow extends StatelessWidget {
                       fontSize: 10,
                     ),
                   ),
-
                 ],
               ),
             ),

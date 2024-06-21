@@ -171,74 +171,10 @@
               itemBuilder: (context) {
                 return [
                   const PopupMenuItem(
-                    value: 1,
-                    height: 30,
-                    child: Text(
-                      "Social Share",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 2,
-                    height: 30,
-                    child: Text(
-                      "Playing Queue",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
                     value: 3,
                     height: 30,
                     child: Text(
                       "Add to playlist...",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 4,
-                    height: 30,
-                    child: Text(
-                      "Lyrics",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 5,
-                    height: 30,
-                    child: Text(
-                      "Volume",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 6,
-                    height: 30,
-                    child: Text(
-                      "Details",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 7,
-                    height: 30,
-                    child: Text(
-                      "Sleep timer",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 8,
-                    height: 30,
-                    child: Text(
-                      "Equaliser",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 9,
-                    height: 30,
-                    child: Text(
-                      "Driver mode",
                       style: TextStyle(fontSize: 12),
                     ),
                   ),

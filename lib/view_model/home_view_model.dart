@@ -1,78 +1,25 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:music_player/view_model/all_songs_view_model.dart';
+import 'package:music_player/models/song_model.dart';
 
 class HomeViewModel extends GetxController {
-    final txtSearch = TextEditingController().obs; 
+    final AllSongsViewModel _allSongsViewModel = Get.find();
 
-    final hostRecommendedArr = [
-        {
-            "image": "assets/img/noinaycoanh.png",
-            "name": "Nơi này có anh",
-            "artists": "Sơn tùng MTP"
-        },
-        {
-            "image": "assets/img/comaogaotien.jpg",
-            "name": "Cơm Aó Gạo Tiền",
-            "artists": "7dnight"
-        },
-        {
-            "image": "assets/img/comaogaotien.jpg",
-            "name": "Cơm Aó Gạo Tiền",
-            "artists": "7dnight"
-        },
-        {
-            "image": "assets/img/dlttad.jpg",
-            "name": "Đừng làm trái tim anh đau",
-            "artists": "Sơn tùng MTP"
-        },
-        {
-            "image": "assets/img/2h.jpg",
-            "name": "2H",
-            "artists": "MCK"
+    var txtSearch = TextEditingController().obs;
+    var searchResult = <Song>[].obs;
+
+    List<Song> get hostRecommendedArr => _allSongsViewModel.allList; // Giả sử lấy tất cả bài hát làm recommended
+
+    void performSearch() {
+        String query = txtSearch.value.text.toLowerCase();
+        if (query.isEmpty) {
+            searchResult.clear();
+        } else {
+            searchResult.assignAll(_allSongsViewModel.allList.where((song) =>
+            song.title.toLowerCase().contains(query) ||
+                song.album.toLowerCase().contains(query) ||
+                song.artist.toLowerCase().contains(query)));
         }
-
-    ].obs;
-
-    final playListArr = [
-        {
-            "image": "assets/img/noiaycontimve.png",
-            "name": "Nơi ấy con tìm về",
-            "artists": "Hồ Quang Hiếu"
-        },
-        {
-            "image": "assets/img/chuyencuboqua.png",
-            "name": "Chuyện cũ bỏ qua",
-            "artists": "Bích Phương"
-        },
-        {
-            "image": "assets/img/canhhoatan.png",
-            "name": "Cánh hoa tàn",
-            "artists": "Hương Tràm"
-        }
-    ];
-
-    final recentlyPlayedArr = [
-        {
-            "rate": 4,
-            "name": "Billie Jean",
-            "artists": "Michael Jackson"
-        },
-        {
-            "rate": 4,
-            "name": "Earth Song",
-            "artists": "Michael Jackson"
-        },
-        {
-            "rate": 4,
-            "name": "Mirror",
-            "artists": "Justin Timberlake"
-        },
-        {
-            "rate": 4,
-            "name": "Remember the Time",
-            "artists": "Michael Jackson"
-        }
-    ].obs;
+    }
 }
-
-//.navigationViewStyle(StackNavigationViewStyle())

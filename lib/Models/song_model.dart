@@ -1,4 +1,5 @@
 // lib/models/song_model.dart
+import 'dart:convert';
 
 class Song {
   final String id;
@@ -38,5 +39,20 @@ class Song {
       counter: json['counter'],
       replay: json['replay'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'album': album,
+      'artist': artist,
+      'source': source,
+      'image': image,
+      'duration': duration,
+      'favorite': favorite.toString(),
+      'counter': counter,
+      'replay': replay,
+    };
   }
 }
